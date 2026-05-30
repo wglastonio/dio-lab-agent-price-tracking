@@ -92,13 +92,7 @@ Sumário da avaliação da qualidade do Agente:
 
 ### 6. Pitch
 
-**Pitch de 3 minutos** (estilo elevador) apresentando:
-
-- Qual problema seu agente resolve?
-- Como ele funciona na prática?
-- Por que essa solução é inovadora?
-
-📄 **Template:** [`docs/05-pitch.md`](./docs/05-pitch.md)
+[Agente Faro Fino](https://youtu.be/zdUnhoNDfxk) em ação.
 
 ---
 
