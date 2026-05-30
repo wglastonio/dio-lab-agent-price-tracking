@@ -6,24 +6,21 @@
 ## Roteiro Sugerido
 
 ### 1. O Problema (30 seg)
-> Qual dor do cliente você resolve?
+As pessoas ficam em dúvida se estão comprando algum produto pelo melhor preço em determinada data, ou se deveriam esperar alguns dias esperando que o produto entre em promoção em breve.
 
-[Sua descrição aqui]
 
 ### 2. A Solução (1 min)
-> Como seu agente resolve esse problema?
+Esse agente consome uma API (simulado pelo arquivo local) fazendo uma pesquisa na variação dos preço de determinado produto e indica as melhores datas ou períodos para compra desse produto, ou seja, em datas em que os preços estiveram mais baixos.
 
-[Sua descrição aqui]
 
 ### 3. Demonstração (1 min)
-> Mostre o agente funcionando (pode ser gravação de tela)
+Apresentação em vídeo do [Agente Faro Fino](../assets/FaroFinoEmAcao.mp4) em ação.
 
-[Descreva o que será mostrado]
 
 ### 4. Diferencial e Impacto (30 seg)
-> Por que essa solução é inovadora e qual é o impacto dela na sociedade?
+As pessoas ficam em dúvida se estão comprando algum produto pelo melhor preço em determinada data, ou se deveriam esperar alguns dias esperando que o produto entre em promoção em breve.
 
-[Sua descrição aqui]
+Então o objetivo do Agente Faro Fino é auxiliar os usuários na busca dos melhores dias para comprar algum produto.
 
 ---
 
@@ -39,6 +36,4 @@
 
 ## Link do Vídeo
 
-> Cole aqui o link do seu pitch (YouTube, Loom, Google Drive, etc.)
-
-[Link do vídeo]
+[Agente Faro Fino](../assets/FaroFinoEmAcao.mp4)

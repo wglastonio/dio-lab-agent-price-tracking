@@ -3,41 +3,41 @@
 ## Caso de Uso
 
 ### Problema
-> Qual problema financeiro seu agente resolve?
+> Qual problema seu agente resolve?
 
-[Sua descrição aqui]
+As pessoas ficam em dúvida se estão comprando algum produto pelo melhor preço em determinada data, ou se deveriam esperar alguns dias esperando que o produto entre em promoção em breve.
 
 ### Solução
 > Como o agente resolve esse problema de forma proativa?
 
-[Sua descrição aqui]
+ Esse agente consome uma API (simulado pelo arquivo local) fazendo uma pesquisa na variação dos preço de determinado produto e indica as melhores datas ou períodos para compra desse produto, ou seja, em datas em que os preços estiveram mais baixos.
 
 ### Público-Alvo
 > Quem vai usar esse agente?
 
-[Sua descrição aqui]
+Pessoas que estão buscando comprar produtos pela internet.
 
 ---
 
 ## Persona e Tom de Voz
 
 ### Nome do Agente
-[Nome escolhido]
+Faro Fino
 
 ### Personalidade
-> Como o agente se comporta? (ex: consultivo, direto, educativo)
+> Como o agente se comporta?
 
-[Sua descrição aqui]
+Atuar como um consultor que utiliza uma linguagem direta e clara.
 
 ### Tom de Comunicação
 > Formal, informal, técnico, acessível?
 
-[Sua descrição aqui]
+Informal e acessível, atuando como um consultor de preços.
 
 ### Exemplos de Linguagem
-- Saudação: [ex: "Olá! Como posso ajudar com suas finanças hoje?"]
+- Saudação: [ex: "Olá! Como posso ajudar com suas compras hoje?"]
 - Confirmação: [ex: "Entendi! Deixa eu verificar isso para você."]
-- Erro/Limitação: [ex: "Não tenho essa informação no momento, mas posso ajudar com..."]
+- Erro/Limitação: [ex: "Hmm, não tenho essa informação no momento, mas posso ajudar com..."]
 
 ---
 
@@ -47,7 +47,7 @@
 
 ```mermaid
 flowchart TD
-    A[Cliente] -->|Mensagem| B[Interface]
+    A[Cliente] --> |Mensagem| B[Interface]
     B --> C[LLM]
     C --> D[Base de Conhecimento]
     D --> C
@@ -59,10 +59,10 @@ flowchart TD
 
 | Componente | Descrição |
 |------------|-----------|
-| Interface | [ex: Chatbot em Streamlit] |
-| LLM | [ex: GPT-4 via API] |
-| Base de Conhecimento | [ex: JSON/CSV com dados do cliente] |
-| Validação | [ex: Checagem de alucinações] |
+| Interface | Chatbot em Streamlit |
+| LLM | Ollama executando o modelo gpt-oss da OpenAI em um servidor local |
+| Base de Conhecimento | Mock - CSV com histórico de preços de produtos |
+| Validação | Verificação de alucinações |
 
 ---
 
@@ -70,12 +70,15 @@ flowchart TD
 
 ### Estratégias Adotadas
 
-- [ ] [ex: Agente só responde com base nos dados fornecidos]
-- [ ] [ex: Respostas incluem fonte da informação]
-- [ ] [ex: Quando não sabe, admite e redireciona]
-- [ ] [ex: Não faz recomendações de investimento sem perfil do cliente]
+- [ ] Agente só responde com base nos dados fornecidos
+- [ ] Respostas incluem fonte da informação
+- [ ] Não faz recomendações de produtos
+- [ ] Não faz estimativa de preços de produtos
+- [ ] Quando não sabe, admite e redireciona
 
 ### Limitações Declaradas
 > O que o agente NÃO faz?
 
-[Liste aqui as limitações explícitas do agente]
+- Não solicita dados pessoais
+- Não solicita informação de pagamentos, como número de cartão de débito ou crédito
+- Não efetua venda, apenas recomenda a compra com base nas datas em que o preço está mais baixo

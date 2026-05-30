@@ -1,12 +1,12 @@
-# 🤖 Agente Financeiro Inteligente com IA Generativa
+# 🤖 Agente de Busca Inteligente com IA Generativa
 
 ## Contexto
 
-Os assistentes virtuais no setor financeiro estão evoluindo de simples chatbots reativos para **agentes inteligentes e proativos**. Neste desafio, você vai idealizar e prototipar um agente financeiro que utiliza IA Generativa para:
+Os assistentes virtuais nos diversos setores estão evoluindo de simples chatbots reativos para **agentes inteligentes e proativos**. Neste desafio, você vai idealizar e prototipar um agente de busca da variação de preços que utiliza IA Generativa para:
 
 - **Antecipar necessidades** ao invés de apenas responder perguntas
 - **Personalizar** sugestões com base no contexto de cada cliente
-- **Cocriar soluções** financeiras de forma consultiva
+- **Cocriar soluções** de forma consultiva
 - **Garantir segurança** e confiabilidade nas respostas (anti-alucinação)
 
 > [!TIP]
@@ -14,13 +14,13 @@ Os assistentes virtuais no setor financeiro estão evoluindo de simples chatbots
 
 ---
 
-## O Que Você Deve Entregar
+## Detalhamento do Projeto
 
 ### 1. Documentação do Agente
 
-Defina **o que** seu agente faz e **como** ele funciona:
+Definição **o que** o agente faz e **como** ele funciona:
 
-- **Caso de Uso:** Qual problema financeiro ele resolve? (ex: consultoria de investimentos, planejamento de metas, alertas de gastos)
+- **Caso de Uso:** Qual problema de busca ele resolve? (ex: busca de melhor preço, busca de melhores datas, alertas de melhores preços)
 - **Persona e Tom de Voz:** Como o agente se comporta e se comunica?
 - **Arquitetura:** Fluxo de dados e integração com a base de conhecimento
 - **Segurança:** Como evitar alucinações e garantir respostas confiáveis?
@@ -31,16 +31,14 @@ Defina **o que** seu agente faz e **como** ele funciona:
 
 ### 2. Base de Conhecimento
 
-Utilize os **dados mockados** disponíveis na pasta [`data/`](./data/) para alimentar seu agente:
+Esse agente utiliza os **dados mockados** disponíveis na pasta [`data/`](./data/) para alimentar seu agente:
 
 | Arquivo | Formato | Descrição |
 |---------|---------|-----------|
-| `transacoes.csv` | CSV | Histórico de transações do cliente |
-| `historico_atendimento.csv` | CSV | Histórico de atendimentos anteriores |
-| `perfil_investidor.json` | JSON | Perfil e preferências do cliente |
-| `produtos_financeiros.json` | JSON | Produtos e serviços disponíveis |
+| `products_price.csv` | CSV | Histórico de preços de produtos |
 
-Você pode adaptar ou expandir esses dados conforme seu caso de uso.
+
+É possível adaptar ou expandir esses dados conectando o Agente a uma API de serviços que fornece os valores de produtos, porém essa abordagem não foi feita nesse projeto devido aos custos de utilização dessa API.
 
 📄 **Template:** [`docs/02-base-conhecimento.md`](./docs/02-base-conhecimento.md)
 
@@ -48,7 +46,7 @@ Você pode adaptar ou expandir esses dados conforme seu caso de uso.
 
 ### 3. Prompts do Agente
 
-Documente os prompts que definem o comportamento do seu agente:
+Documenta os prompts que definem o comportamento do Agente:
 
 - **System Prompt:** Instruções gerais de comportamento e restrições
 - **Exemplos de Interação:** Cenários de uso com entrada e saída esperada
@@ -60,10 +58,10 @@ Documente os prompts que definem o comportamento do seu agente:
 
 ### 4. Aplicação Funcional
 
-Desenvolva um **protótipo funcional** do seu agente:
+Desenvolvido um **protótipo funcional** do Agente:
 
-- Chatbot interativo (sugestão: Streamlit, Gradio ou similar)
-- Integração com LLM (via API ou modelo local)
+- Chatbot interativo utilizando Streamlit
+- Integração com Ollama executando o modelo gpt-oss da OpenAI em um mini servidor local
 - Conexão com a base de conhecimento
 
 📁 **Pasta:** [`src/`](./src/)
@@ -72,7 +70,7 @@ Desenvolva um **protótipo funcional** do seu agente:
 
 ### 5. Avaliação e Métricas
 
-Descreva como você avalia a qualidade do seu agente:
+Sumário da avaliação da qualidade do Agente:
 
 **Métricas Sugeridas:**
 - Precisão/assertividade das respostas
@@ -85,7 +83,7 @@ Descreva como você avalia a qualidade do seu agente:
 
 ### 6. Pitch
 
-Grave um **pitch de 3 minutos** (estilo elevador) apresentando:
+**Pitch de 3 minutos** (estilo elevador) apresentando:
 
 - Qual problema seu agente resolve?
 - Como ele funciona na prática?
@@ -111,15 +109,12 @@ Todas as ferramentas abaixo possuem versões gratuitas:
 ## Estrutura do Repositório
 
 ```
-📁 lab-agente-financeiro/
+📁 dio-lab-agent-price-tracking/
 │
 ├── 📄 README.md
 │
 ├── 📁 data/                          # Dados mockados para o agente
-│   ├── historico_atendimento.csv     # Histórico de atendimentos (CSV)
-│   ├── perfil_investidor.json        # Perfil do cliente (JSON)
-│   ├── produtos_financeiros.json     # Produtos disponíveis (JSON)
-│   └── transacoes.csv                # Histórico de transações (CSV)
+│   ├── products_price.csv            # Histórico de preços de produtos (CSV)
 │
 ├── 📁 docs/                          # Documentação do projeto
 │   ├── 01-documentacao-agente.md     # Caso de uso e arquitetura
@@ -129,7 +124,9 @@ Todas as ferramentas abaixo possuem versões gratuitas:
 │   └── 05-pitch.md                   # Roteiro do pitch
 │
 ├── 📁 src/                           # Código da aplicação
-│   └── app.py                        # (exemplo de estrutura)
+│   └── app.py                        # Aplicação usando Streamlit
+│   └── requirements.txt              # Lista de dependências do projeto
+│   └── README.md                     # Resumo sobre a aplicação
 │
 ├── 📁 assets/                        # Imagens e diagramas
 │   └── ...
@@ -142,8 +139,8 @@ Todas as ferramentas abaixo possuem versões gratuitas:
 
 ## Dicas Finais
 
-1. **Comece pelo prompt:** Um bom system prompt é a base de um agente eficaz
-2. **Use os dados mockados:** Eles garantem consistência e evitam problemas com dados sensíveis
-3. **Foque na segurança:** No setor financeiro, evitar alucinações é crítico
-4. **Teste cenários reais:** Simule perguntas que um cliente faria de verdade
-5. **Seja direto no pitch:** 3 minutos passam rápido, vá ao ponto
+1. **Iniciar pelo prompt:** Um bom system prompt é a base de um agente eficaz
+2. **Utilizar dados mockados:** Eles garantem consistência e evitam problemas com dados sensíveis
+3. **Atenção na segurança:** Evitar alucinações e segurança de dados são pontos crítico
+4. **Testar cenários reais:** Simulação de perguntas que um usuário faria de verdade
+5. **Pitch deve ser objetividade:** 3 minutos passam rápido

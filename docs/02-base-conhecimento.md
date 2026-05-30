@@ -2,54 +2,48 @@
 
 ## Dados Utilizados
 
-Descreva se usou os arquivos da pasta `data`, por exemplo:
+Foi gerada uma lista de produtos e preços fictícios distribuídos por data, para um período de 6 meses, utilizando o Microsoft Copilot. Esses dados estão disponíveis na pasta `data`:
 
 | Arquivo | Formato | Utilização no Agente |
 |---------|---------|---------------------|
-| `historico_atendimento.csv` | CSV | Contextualizar interações anteriores |
-| `perfil_investidor.json` | JSON | Personalizar recomendações |
-| `produtos_financeiros.json` | JSON | Sugerir produtos adequados ao perfil |
-| `transacoes.csv` | CSV | Analisar padrão de gastos do cliente |
+| `products_price.csv` | CSV | Histórico de preços de produtos, distribuído por data, com uma amostra no período de 6 meses. |
 
 > [!TIP]
-> **Quer um dataset mais robusto?** Você pode utilizar datasets públicos do [Hugging Face](https://huggingface.co/datasets) relacionados a finanças, desde que sejam adequados ao contexto do desafio.
+> **Para um dataset mais robusto** é possível integrar o Agente a APIs de preços disponibilizadas pelos varejistas, como a Selling Partner API da Amazon.
 
 ---
 
 ## Adaptações nos Dados
 
-> Você modificou ou expandiu os dados mockados? Descreva aqui.
-
-[Sua descrição aqui]
+Como decidimos criar um Agente diferente, que não está ligado ao mercado financeiro, geramos uma lista de produtos e preços fictícios distribuídos por data, para um período de 6 meses, utilizando o Microsoft Copilot.
 
 ---
 
 ## Estratégia de Integração
 
 ### Como os dados são carregados?
-> Descreva como seu agente acessa a base de conhecimento.
 
-[ex: Os JSON/CSV são carregados no início da sessão e incluídos no contexto do prompt]
+Os dados disponíveis no arquivo CSV são carregados no início da sessão e incluídos no contexto do prompt.
+Exemplo:
+
+```python
+import pandas as pd
+
+# Load data source
+database = pd.read_csv('./data/products_price.csv')
+```
 
 ### Como os dados são usados no prompt?
-> Os dados vão no system prompt? São consultados dinamicamente?
 
-[Sua descrição aqui]
+No caso, os dados são carregados no início da aplicação para serem usados como contexto durante a interação entre Usuário e Agente.
 
 ---
 
 ## Exemplo de Contexto Montado
 
-> Mostre um exemplo de como os dados são formatados para o agente.
-
-```
-Dados do Cliente:
-- Nome: João Silva
-- Perfil: Moderado
-- Saldo disponível: R$ 5.000
-
-Últimas transações:
-- 01/11: Supermercado - R$ 450
-- 03/11: Streaming - R$ 55
+|PRODUCT_ID | DESCRIPTION | PRICE | DATE |
+|-----------|-------------|-------|------|
+|PROD-001 | Wireless Bluetooth Headphones | $89.99 | 01/01/2025|
+|PROD-002 | Portable Power Bank 20000mAh | $42.66 | 01/06/2025
 ...
-```
+
