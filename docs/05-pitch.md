@@ -14,7 +14,7 @@ Esse agente consome uma API (simulado pelo arquivo local) fazendo uma pesquisa n
 
 
 ### 3. Demonstração (1 min)
-Apresentação em vídeo do [Agente Faro Fino](../assets/FaroFinoEmAcao.mp4) em ação.
+Apresentação em vídeo do [Agente Faro Fino](https://youtu.be/zdUnhoNDfxk) em ação.
 
 
 ### 4. Diferencial e Impacto (30 seg)
@@ -36,4 +36,4 @@ Então o objetivo do Agente Faro Fino é auxiliar os usuários na busca dos melh
 
 ## Link do Vídeo
 
-[Agente Faro Fino](../assets/FaroFinoEmAcao.mp4)
+[Agente Faro Fino](https://youtu.be/zdUnhoNDfxk)
