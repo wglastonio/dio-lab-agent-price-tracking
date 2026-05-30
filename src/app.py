@@ -11,12 +11,55 @@ OLLAMA_MODEL = 'gpt-oss'
 # Load data source
 database = pd.read_csv('./data/products_price.csv', sep=';', parse_dates=['DATE'], dayfirst=True)
 
+# Parse numeric price for deterministic calculations (removes R$, converts BR decimal).
+database['PRICE_VALUE'] = (
+    database['PRODUCT_PRICE']
+    .str.replace('R$', '', regex=False)
+    .str.strip()
+    .str.replace('.', '', regex=False)
+    .str.replace(',', '.', regex=False)
+    .astype(float)
+)
 
-# Create the context for the agent
+
+def _build_context() -> str:
+    """Build a compact, verified per-product summary for the LLM context.
+
+    Instead of dumping raw rows the model may misread, we pre-compute the
+    minimum price and best dates in pandas and hand only those verified facts
+    to the model. This eliminates hallucinated price/date combinations.
+    """
+    lines = []
+    for product_id, group in database.groupby('PRODUCT_ID'):
+        description = group['PRODUCT_DESCRIPTION'].iloc[0]
+        min_value = group['PRICE_VALUE'].min()
+        min_price_fmt = group.loc[group['PRICE_VALUE'] == min_value, 'PRODUCT_PRICE'].iloc[0]
+        min_dates = (
+            group.loc[group['PRICE_VALUE'] == min_value, 'DATE']
+            .sort_values()
+            .dt.strftime('%d/%m/%Y')
+            .tolist()
+        )
+        top5 = (
+            group.sort_values(['PRICE_VALUE', 'DATE'])
+            .head(5)[['PRODUCT_PRICE', 'DATE']]
+            .assign(DATE=lambda df: df['DATE'].dt.strftime('%d/%m/%Y'))
+            .to_string(index=False)
+        )
+        lines.append(
+            f"Produto: {product_id} - {description}\n"
+            f"  Menor preco: {min_price_fmt} nas datas: {', '.join(min_dates)}\n"
+            f"  Top 5 menores precos:\n{top5}\n"
+        )
+    return '\n'.join(lines)
+
+
+# Create the context for the agent — uses verified computed facts, not raw rows.
 context = f"""
-The following is a database of products and their prices:
+O banco de dados abaixo contém os preços verificados por produto.
+Os valores e datas foram calculados diretamente do CSV e são precisos.
 
-{database.to_string(index=False)}
+{_build_context()}
 """
 
 
