@@ -3,17 +3,14 @@
 ## Caso de Uso
 
 ### Problema
-> Qual problema seu agente resolve?
 
 As pessoas ficam em dúvida se estão comprando algum produto pelo melhor preço em determinada data, ou se deveriam esperar alguns dias esperando que o produto entre em promoção em breve.
 
 ### Solução
-> Como o agente resolve esse problema de forma proativa?
 
  Esse agente consome uma API (simulado pelo arquivo local) fazendo uma pesquisa na variação dos preço de determinado produto e indica as melhores datas ou períodos para compra desse produto, ou seja, em datas em que os preços estiveram mais baixos.
 
 ### Público-Alvo
-> Quem vai usar esse agente?
 
 Pessoas que estão buscando comprar produtos pela internet.
 
@@ -25,12 +22,10 @@ Pessoas que estão buscando comprar produtos pela internet.
 Faro Fino
 
 ### Personalidade
-> Como o agente se comporta?
 
 Atuar como um consultor que utiliza uma linguagem direta e clara.
 
 ### Tom de Comunicação
-> Formal, informal, técnico, acessível?
 
 Informal e acessível, atuando como um consultor de preços.
 
@@ -77,7 +72,6 @@ flowchart TD
 - [ ] Quando não sabe, admite e redireciona
 
 ### Limitações Declaradas
-> O que o agente NÃO faz?
 
 - Não solicita dados pessoais
 - Não solicita informação de pagamentos, como número de cartão de débito ou crédito

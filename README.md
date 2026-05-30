@@ -20,10 +20,19 @@ Os assistentes virtuais nos diversos setores estão evoluindo de simples chatbot
 
 Definição **o que** o agente faz e **como** ele funciona:
 
-- **Caso de Uso:** Qual problema de busca ele resolve? (ex: busca de melhor preço, busca de melhores datas, alertas de melhores preços)
-- **Persona e Tom de Voz:** Como o agente se comporta e se comunica?
-- **Arquitetura:** Fluxo de dados e integração com a base de conhecimento
-- **Segurança:** Como evitar alucinações e garantir respostas confiáveis?
+- **Caso de Uso:** As pessoas ficam em dúvida se estão comprando algum produto pelo melhor preço em determinada data, ou se deveriam esperar alguns dias esperando que o produto entre em promoção em breve.
+- **Persona e Tom de Voz:** Atua como um consultor que utiliza uma linguagem direta e clara.
+- **Arquitetura:**
+```mermaid
+    flowchart TD
+    A[Cliente] --> |Mensagem| B[Interface]
+    B --> C[LLM]
+    C --> D[Base de Conhecimento]
+    D --> C
+    C --> E[Validação]
+    E --> F[Resposta]
+```
+- **Segurança:** Limitar o escopo fornecendo um contexto, indicando ações permitidas e ações não permitidas.
 
 📄 **Template:** [`docs/01-documentacao-agente.md`](./docs/01-documentacao-agente.md)
 
@@ -144,3 +153,8 @@ Todas as ferramentas abaixo possuem versões gratuitas:
 3. **Atenção na segurança:** Evitar alucinações e segurança de dados são pontos crítico
 4. **Testar cenários reais:** Simulação de perguntas que um usuário faria de verdade
 5. **Pitch deve ser objetividade:** 3 minutos passam rápido
+
+
+## Comentários
+
+Se você encontrou alguma informação inconsistente ou tenha alguma sugestão, ficaria feliz em receber o feedback.
