@@ -1,3 +1,4 @@
+import re
 import requests
 import pandas as pd
 import streamlit as st
@@ -40,8 +41,22 @@ def _build_context() -> str:
             .dt.strftime('%d/%m/%Y')
             .tolist()
         )
-        top5 = (
+        top5_cheapest = (
             group.sort_values(['PRICE_VALUE', 'DATE'])
+            .head(5)[['PRODUCT_PRICE', 'DATE']]
+            .assign(DATE=lambda df: df['DATE'].dt.strftime('%d/%m/%Y'))
+            .to_string(index=False)
+        )
+        max_value = group['PRICE_VALUE'].max()
+        max_price_fmt = group.loc[group['PRICE_VALUE'] == max_value, 'PRODUCT_PRICE'].iloc[0]
+        max_dates = (
+            group.loc[group['PRICE_VALUE'] == max_value, 'DATE']
+            .sort_values()
+            .dt.strftime('%d/%m/%Y')
+            .tolist()
+        )
+        top5_priciest = (
+            group.sort_values(['PRICE_VALUE', 'DATE'], ascending=[False, True])
             .head(5)[['PRODUCT_PRICE', 'DATE']]
             .assign(DATE=lambda df: df['DATE'].dt.strftime('%d/%m/%Y'))
             .to_string(index=False)
@@ -49,7 +64,9 @@ def _build_context() -> str:
         lines.append(
             f"Produto: {product_id} - {description}\n"
             f"  Menor preco: {min_price_fmt} nas datas: {', '.join(min_dates)}\n"
-            f"  Top 5 menores precos:\n{top5}\n"
+            f"  Top 5 menores precos:\n{top5_cheapest}\n"
+            f"  Maior preco: {max_price_fmt} nas datas: {', '.join(max_dates)}\n"
+            f"  Top 5 maiores precos:\n{top5_priciest}\n"
         )
     return '\n'.join(lines)
 
@@ -77,26 +94,58 @@ REGRAS:
 4. Sempre apresente uma resposta informando o preço do produto na data solicitada.
 5. Sempre apresente dias alternativos com menores valores em forma de tabela.
 6. Apresente os dados da resposta em forma de tabela para ficar mais claro para o usuário.
-7. Se o usuário perguntar por informações que não estão disponíveis no banco de dados, responda com "Puxa vida, me desculpe, mas sou especializado em busca de preços de produtos e não tenho informações dessa natureza. Ficaria feliz em ajudar com alguma busca de preço?"
+7. Se o usuário perguntar por informações que não estão disponíveis no banco de dados, responda que você é especializado apenas em busca de preços de produtos. Em seguida, ofereça realizar alguma busca de preço.
 8. Após fornecer uma resposta, sempre pergunte se o usuário deseja realizar alguma busca adicional, para manter a interação ativa.
 
 
 RESTRIÇÕES:
 1. Não invente informações de produtos, preços ou datas.
-2. Não faz recomendações de produtos
-3. Não faz estimativa de preços de produtos
-4. Quando não sabe, admite e redireciona
-5. Não solicita dados pessoais
-6. Não solicita informação de pagamentos, como número de cartão de débito ou crédito
-7. Não efetua venda, apenas recomenda a compra com base nas datas em que o preço está mais baixo
+2. Não faz recomendações de produtos.
+3. Não faz estimativa de preços de produtos.
+4. Quando não sabe, admite e redireciona.
+5. Não solicita dados pessoais.
+6. Não solicita informação de pagamentos, como número de cartão de débito ou crédito.
+7. Não efetua venda, apenas recomenda a compra com base nas datas em que o preço está mais baixo.
 """
 
 
 # Start the agent
+_DATE_PATTERN = re.compile(r'\b(\d{1,2})[/\-\.](\d{1,2})[/\-\.](\d{4})\b')
+
+
+def _lookup_specific_dates(message: str) -> str:
+    """Return verified rows from the database for any dates mentioned in message.
+
+    Supports formats like 15/03/2024, 15-03-2024, 15.03.2024.
+    Returns an empty string when no date is found so the caller can skip it.
+    """
+    matches = _DATE_PATTERN.findall(message)
+    if not matches:
+        return ''
+
+    results = []
+    for day, month, year in matches:
+        target = pd.Timestamp(int(year), int(month), int(day))
+        rows = database[database['DATE'] == target]
+        if rows.empty:
+            results.append(f"Data {day}/{month}/{year}: nenhum registro encontrado no banco de dados.")
+        else:
+            table = (
+                rows[['PRODUCT_ID', 'PRODUCT_DESCRIPTION', 'PRODUCT_PRICE', 'DATE']]
+                .assign(DATE=rows['DATE'].dt.strftime('%d/%m/%Y'))
+                .to_string(index=False)
+            )
+            results.append(f"Registros encontrados para {day}/{month}/{year}:\n{table}")
+
+    return '\n'.join(results)
+
+
 def user_request(message):
+    date_lookup = _lookup_specific_dates(message)
+    extra = f"\nConsulta de data específica (dados exatos do CSV):\n{date_lookup}" if date_lookup else ''
     prompt = f"""
             Instructions: {system_prompt}
-            Context: {context}
+            Context: {context}{extra}
             Question: {message}
             """
     response = requests.post(
